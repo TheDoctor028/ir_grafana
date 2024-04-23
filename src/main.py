@@ -1,4 +1,5 @@
 import os
+import time
 
 from irsdk import IRSDK
 from meters.registry import registry, get_job_name
@@ -12,13 +13,10 @@ BLACKLIST = []
 WHITELIST = []
 
 
-def write_telemetry(name, value):
-    if name in BLACKLIST and MODE_BLACKLIST:
-        return
-    elif name not in WHITELIST and not MODE_BLACKLIST:
-        return
+def write_telemetry():
     client_last_write.set_to_current_time()
     push_to_gateway(PUSH_GW_URL, job=get_job_name(), registry=registry)
+    print("Telemetry written")
 
 
 def main():
@@ -29,8 +27,11 @@ def main():
     print(metaLabels.get_keys())
     print(metaLabels.get_values(ir))
     laptime = Gauge('laptime', 'Laptime', metaLabels.get_keys(), registry=registry)
-    laptime.labels(*metaLabels.get_values(ir)).set(ir['LapLastLapTime'])
-    write_telemetry("SessionTime", ir['SessionTime'])
+
+    while True:
+        laptime.labels(*metaLabels.get_values(ir)).set(ir['LapLastLapTime'])
+        write_telemetry()
+        time.sleep(1)
 
 
 if __name__ == "__main__":
