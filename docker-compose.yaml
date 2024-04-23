@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  pushgateway:
+    image: prom/pushgateway
+    container_name: pushgateway
+    restart: unless-stopped
+    expose:
+      - 9091
+    ports:
+      - '9091:9091'
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - '9090:9090'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    volumes:
+      - ./docker/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - ./docker/prometheus/data:/prometheus
+    restart: unless-stopped
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./docker/grafana/data:/var/lib/grafana
+    restart: unless-stopped
+

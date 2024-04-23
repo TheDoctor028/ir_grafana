@@ -1,0 +1,5 @@
+.DS_Store
+.idea/
+venv/
+docker/grafana/data/
+docker/prometheus/data/
