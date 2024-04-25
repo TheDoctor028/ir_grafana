@@ -20,17 +20,18 @@ class Telemetry:
             if not self.ir.is_connected:
                 print("iRacing not connected, waiting...")
                 time.sleep(10)
+                self.ir.startup()
                 continue
 
             self._tick()
+            self._lap = self.ir['Lap']
             if self._lap > self._last_processed_lap:
                 self._tick_lap()
-                self._lap = self.ir['Lap']
 
     def _tick(self):
         for m in self.registry.per_tick_metrics:
             m.set(self.ir)
-        print(f"Pushing metrics to {self.config['push_gw_url']}")
+        # print(f"Pushing metrics to {self.config['push_gw_url']}")
         push_to_gateway(self.config['push_gw_url'], job=self.config.job_name(),
                         registry=self.registry.per_tick_registry)
         time.sleep(self.tick_interval)
