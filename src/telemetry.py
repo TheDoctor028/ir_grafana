@@ -2,11 +2,14 @@ import time
 
 from irsdk import IRSDK
 from registry import Registry
+from prometheus_client import push_to_gateway
+from config import Config
 
 
 class Telemetry:
-    def __init__(self, ir: IRSDK, r: Registry, tick_interval: int = 1):
+    def __init__(self, ir: IRSDK, c: Config, r: Registry, tick_interval: int = 1):
         self.ir = ir
+        self.config = c
         self.registry = r
         self._lap = 0
         self._last_processed_lap = -1
@@ -22,10 +25,12 @@ class Telemetry:
     def _tick(self):
         for m in self.registry.per_tick_metrics:
             m.set(self.ir)
+        push_to_gateway(self.config['push_gw_url'], job=self.config.job_name(),
+                        registry=self.registry.per_tick_registry)
         time.sleep(self.tick_interval)
-        pass
 
     def _tick_lap(self):
         for m in self.registry.per_lap_metrics:
             m.set(self.ir)
-        pass
+        push_to_gateway(self.config['push_gw_url'], job=self.config.job_name(),
+                        registry=self.registry.per_lap_registry)
