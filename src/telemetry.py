@@ -42,11 +42,17 @@ class Labels:
 
 class Meter:
 
-    def __init__(self, name: str, description: str, labels: list[Labels], registry):
+    def __init__(self, name: str, description: str, labels: list[Labels]):
         self.name = name
         self.description = description
         self.labels = labels
-        self.registry = registry
+        self.init = False
+        self.registry = None
+
+    def init_meter(self, registry):
+        if not self.init:
+            self.init = True
+            self.registry = registry
 
     def _get_merged_labels_keys(self) -> list[str]:
         merged_label_keys = []
@@ -65,20 +71,29 @@ class Meter:
 
 
 class Gauge(Meter):
+    gauge: prometheus_client.Gauge
 
-    def __init__(self, name: str, description: str, labels: list[Labels], registry):
-        super().__init__(name, description, labels, registry)
-        self.gauge = prometheus_client.Gauge(name, description, self._get_merged_labels_keys(), registry=self.registry)
+    def __init__(self, name: str, description: str, labels: list[Labels]):
+        super().__init__(name, description, labels)
+
+    def init_meter(self, registry):
+        super().init_meter(registry)
+        self.gauge = prometheus_client.Gauge(self.name, self.description,
+                                             self._get_merged_labels_keys(), registry=self.registry)
 
     def get_meter(self):
         return self.gauge
 
 
 class Counter(Meter):
+    counter: prometheus_client.Counter
 
-    def __init__(self, name: str, description: str, labels: list[Labels], registry):
-        super().__init__(name, description, labels, registry)
-        self.counter = prometheus_client.Counter(name, description,
+    def __init__(self, name: str, description: str, labels: list[Labels]):
+        super().__init__(name, description, labels)
+
+    def init_meter(self, registry):
+        super().init_meter(registry)
+        self.counter = prometheus_client.Counter(self.name, self.description,
                                                  self._get_merged_labels_keys(), registry=self.registry)
 
     def get_meter(self):
