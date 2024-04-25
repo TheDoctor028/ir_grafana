@@ -46,7 +46,7 @@ class Gauge(Meter):
                                              self._get_merged_labels_keys(), registry=self.registry)
 
     def set(self, ir: IRSDK):
-        return self.gauge.labels(self._get_merged_labels_values(ir)).set(ir[self.ir_key])
+        return self.gauge.labels(*self._get_merged_labels_values(ir)).set(ir[self.ir_key])
 
 
 class Counter(Meter):
@@ -61,4 +61,4 @@ class Counter(Meter):
                                                  self._get_merged_labels_keys(), registry=self.registry)
 
     def set(self, ir: IRSDK):
-        return self.counter.labels(self._get_merged_labels_values(ir)).inc(ir[self.ir_key])
+        return self.counter.labels(*self._get_merged_labels_values(ir)).inc(ir[self.ir_key])
