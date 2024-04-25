@@ -8,6 +8,10 @@ _META_LABELS = {
     },
 }
 
+_PER_LAP_LABELS = {
+    "Lap": "lap",
+}
+
 
 class Labels:
     def __init__(self, labels: dict):
@@ -39,3 +43,4 @@ class Labels:
 
 
 META_LABELS = Labels(_META_LABELS)
+PER_LAP_LABELS = Labels(_PER_LAP_LABELS)
