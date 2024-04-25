@@ -1,3 +1,5 @@
+import prometheus_client
+
 META_LABELS = {
     "WeekendInfo": {
         "TrackID": "track_id",
@@ -38,9 +40,46 @@ class Labels:
         return self._get_values(self.labels, ir)
 
 
-class Telemetry:
-    pass
-
-
 class Meter:
-    pass
+
+    def __init__(self, name: str, description: str, labels: list[Labels], registry):
+        self.name = name
+        self.description = description
+        self.labels = labels
+        self.registry = registry
+
+    def _get_merged_labels_keys(self) -> list[str]:
+        merged_label_keys = []
+        for label in self.labels:
+            merged_label_keys.extend(label.get_keys())
+        return merged_label_keys
+
+    def _get_merged_labels_values(self, ir) -> list[str]:
+        merged_label_values = []
+        for label in self.labels:
+            merged_label_values.extend(label.get_values(ir))
+        return merged_label_values
+
+    def get_meter(self):
+        pass
+
+
+class Gauge(Meter):
+
+    def __init__(self, name: str, description: str, labels: list[Labels], registry):
+        super().__init__(name, description, labels, registry)
+        self.gauge = prometheus_client.Gauge(name, description, self._get_merged_labels_keys(), registry=self.registry)
+
+    def get_meter(self):
+        return self.gauge
+
+
+class Counter(Meter):
+
+    def __init__(self, name: str, description: str, labels: list[Labels], registry):
+        super().__init__(name, description, labels, registry)
+        self.counter = prometheus_client.Counter(name, description,
+                                                 self._get_merged_labels_keys(), registry=self.registry)
+
+    def get_meter(self):
+        return self.counter

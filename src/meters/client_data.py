@@ -1,5 +1,5 @@
 from prometheus_client import Gauge
-from .registry import registry
+from src.registry import registry
 
 
 client_last_write = Gauge('client_last_export_unix_ts',

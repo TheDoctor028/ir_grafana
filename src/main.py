@@ -1,7 +1,7 @@
 import time
 
 from irsdk import IRSDK
-from meters.registry import registry, get_job_name, Registry
+from src.registry import registry, Registry
 from meters.client_data import client_last_write
 from prometheus_client import push_to_gateway, Gauge
 import telemetry
