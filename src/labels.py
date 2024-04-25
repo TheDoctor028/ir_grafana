@@ -1,3 +1,5 @@
+import uuid
+
 _META_LABELS = {
     "WeekendInfo": {
         "TrackID": "track_id",
@@ -16,6 +18,17 @@ _PER_LAP_LABELS = {
 class Labels:
     def __init__(self, labels: dict):
         self.labels = labels
+
+    def get_keys(self):
+        return self.labels.keys()
+
+    def get_values(self, ir):
+        return self.labels.values()
+
+
+class ExtractedLabels(Labels):
+    def __init__(self, labels: dict):
+        super().__init__(labels)
 
     def _get_keys(self, d):
         ks = []
@@ -42,5 +55,6 @@ class Labels:
         return self._get_values(self.labels, ir)
 
 
-META_LABELS = Labels(_META_LABELS)
-PER_LAP_LABELS = Labels(_PER_LAP_LABELS)
+META_LABELS = ExtractedLabels(_META_LABELS)
+PER_LAP_LABELS = ExtractedLabels(_PER_LAP_LABELS)
+STARTUP_LABELS = Labels({"client_startup_identifier": uuid.uuid4().hex})

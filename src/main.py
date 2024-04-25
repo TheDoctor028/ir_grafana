@@ -3,7 +3,7 @@ from registry import Registry
 from config import Config
 from telemetry import Telemetry
 from meter import Gauge
-from labels import META_LABELS, PER_LAP_LABELS
+from labels import META_LABELS, PER_LAP_LABELS, STARTUP_LABELS
 
 
 def main():
@@ -21,8 +21,8 @@ def main():
         ir.startup()
 
     print("Initializing metrics...")
-    last_laptime = Gauge('last_lap_time', 'Last lap time in seconds', [META_LABELS, PER_LAP_LABELS], 'LapLastLapTime')
-    fuel_lvl = Gauge('fuel_level', 'Fuel level in liters', [META_LABELS], 'FuelLevel')
+    last_laptime = Gauge('last_lap_time', 'Last lap time in seconds', [STARTUP_LABELS, META_LABELS, PER_LAP_LABELS], 'LapLastLapTime')
+    fuel_lvl = Gauge('fuel_level', 'Fuel level in liters', [STARTUP_LABELS, META_LABELS], 'FuelLevel')
 
     print("Initializing registry...")
     r = Registry([fuel_lvl], [last_laptime])
