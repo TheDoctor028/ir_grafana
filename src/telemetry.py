@@ -17,7 +17,7 @@ class Telemetry:
 
     def start(self):
         while True:
-            if not self.ir.is_connected():
+            if not self.ir.is_connected:
                 print("iRacing not connected, waiting...")
                 time.sleep(10)
                 continue
