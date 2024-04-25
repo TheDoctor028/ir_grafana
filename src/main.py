@@ -1,28 +1,33 @@
-import os
 import time
 
 from irsdk import IRSDK
-from meters.registry import registry, get_job_name
+from meters.registry import registry, get_job_name, Registry
 from meters.client_data import client_last_write
 from prometheus_client import push_to_gateway, Gauge
 import telemetry
+from src.config import Config
 
-PUSH_GW_URL = os.getenv('PUSH_GW_URL', 'http://localhost:9091')
 MODE_BLACKLIST = 1
 BLACKLIST = []
 WHITELIST = []
 
 
-def write_telemetry():
+def write_telemetry(c: Config):
     client_last_write.set_to_current_time()
-    push_to_gateway(PUSH_GW_URL, job=get_job_name(), registry=registry)
+    push_to_gateway(c.config["push_gw_url"], job=c.job_name(), registry=registry)
     print("Telemetry written")
 
 
 def main():
+    c = Config()
     ir = IRSDK()
-    ir.startup("../test_files/dump.txt")
-    ir.freeze_var_buffer_latest()
+    r = Registry(['fuel'], ['laptime'])
+
+    if c.config["test_file"]:
+        ir.startup(c.config["test_file"])
+    else:
+        ir.startup()
+
     metaLabels = telemetry.Labels(telemetry.META_LABELS)
     print(metaLabels.get_keys())
     print(metaLabels.get_values(ir))
@@ -30,7 +35,7 @@ def main():
 
     while True:
         laptime.labels(*metaLabels.get_values(ir)).set(ir['LapLastLapTime'])
-        write_telemetry()
+        write_telemetry(c)
         time.sleep(1)
 
 

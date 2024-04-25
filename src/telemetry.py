@@ -1,7 +1,3 @@
-from irsdk import IRSDK
-from prometheus_client import Gauge, Counter
-from meters.registry import registry
-
 META_LABELS = {
     "WeekendInfo": {
         "TrackID": "track_id",
@@ -40,3 +36,11 @@ class Labels:
 
     def get_values(self, ir):
         return self._get_values(self.labels, ir)
+
+
+class Telemetry:
+    pass
+
+
+class Meter:
+    pass

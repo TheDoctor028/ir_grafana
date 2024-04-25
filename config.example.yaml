@@ -1,0 +1,5 @@
+test_file: "test_files/test_file.txt"
+push_gw_url: "http://localhost:9091"
+client_id: "username_or_id"
+telemetry:
+  meta_labels: {}

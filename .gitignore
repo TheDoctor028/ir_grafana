@@ -3,3 +3,4 @@
 venv/
 docker/grafana/data/
 docker/prometheus/data/
+**/**/config.yaml
