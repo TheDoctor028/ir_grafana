@@ -12,7 +12,7 @@ class Telemetry:
         self.config = c
         self.registry = r
         self._lap = 0
-        self._last_processed_lap = -1
+        self._last_processed_lap = 0  # Lap 0 is not exists since when u left the pit it will be 1 instantly
         self.tick_interval = tick_interval
 
     def start(self):
