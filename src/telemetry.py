@@ -23,10 +23,12 @@ class Telemetry:
                 self.ir.startup()
                 continue
 
+            self.ir.freeze_var_buffer_latest()
             self._tick()
             self._lap = self.ir['Lap']
             if self._lap > self._last_processed_lap:
                 self._tick_lap()
+            self.ir.unfreeze_var_buffer_latest()
 
     def _tick(self):
         for m in self.registry.per_tick_metrics:
