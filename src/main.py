@@ -1,6 +1,6 @@
 from irsdk import IRSDK
-from src.registry import Registry
-from src.config import Config
+from registry import Registry
+from config import Config
 from telemetry import Telemetry
 from meter import Gauge
 from labels import META_LABELS, PER_LAP_LABELS
