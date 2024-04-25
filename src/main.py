@@ -21,11 +21,20 @@ def main():
         ir.startup()
 
     print("Initializing metrics...")
-    last_laptime = Gauge('last_lap_time', 'Last lap time in seconds', [STARTUP_LABELS, META_LABELS, PER_LAP_LABELS], 'LapLastLapTime')
-    fuel_lvl = Gauge('fuel_level', 'Fuel level in liters', [STARTUP_LABELS, META_LABELS], 'FuelLevel')
+    last_laptime = Gauge('last_lap_time', 'Last lap time in seconds',
+                         [STARTUP_LABELS, META_LABELS, PER_LAP_LABELS], 'LapLastLapTime')
+
+    current_laptime_per_lap = Gauge('current_lap_time_per_lap', 'Current lap time in seconds',
+                            [STARTUP_LABELS, META_LABELS, PER_LAP_LABELS], 'LapCurrentLapTime')
+
+    current_laptime = Gauge('current_lap_time', 'Current lap time in seconds',
+                            [STARTUP_LABELS, META_LABELS], 'LapCurrentLapTime')
+
+    fuel_lvl = Gauge('fuel_level', 'Fuel level in liters',
+                     [STARTUP_LABELS, META_LABELS], 'FuelLevel')
 
     print("Initializing registry...")
-    r = Registry([fuel_lvl], [last_laptime])
+    r = Registry([fuel_lvl, current_laptime], [last_laptime, current_laptime_per_lap])
 
     print("Starting telemetry...")
     t = Telemetry(ir, c, r)
