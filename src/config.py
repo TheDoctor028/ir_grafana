@@ -11,6 +11,8 @@ class Config:
         self.load()
 
     def __getitem__(self, item):
+        if item not in self._config:
+            return None
         return self._config[item]
 
     def load(self):
