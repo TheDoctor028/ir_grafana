@@ -33,7 +33,7 @@ class Telemetry:
             m.set(self.ir)
         # print(f"Pushing metrics to {self.config['push_gw_url']}")
         push_to_gateway(self.config['push_gw_url'], job=self.config.job_name(),
-                        registry=self.registry.per_tick_registry)
+                        registry=self.registry.registry)
         time.sleep(self.tick_interval)
 
     def _tick_lap(self):
@@ -42,4 +42,4 @@ class Telemetry:
         self._last_processed_lap = self.ir['Lap']
         print(f"Pushing metrics to {self.config['push_gw_url']} for lap {self._last_processed_lap}")
         push_to_gateway(self.config['push_gw_url'], job=self.config.job_name(),
-                        registry=self.registry.per_lap_registry)
+                        registry=self.registry.registry)
