@@ -17,6 +17,11 @@ class Telemetry:
 
     def start(self):
         while True:
+            if not self.ir.is_connected():
+                print("iRacing not connected, waiting...")
+                time.sleep(10)
+                continue
+
             self._tick()
             if self._lap > self._last_processed_lap:
                 self._tick_lap()
