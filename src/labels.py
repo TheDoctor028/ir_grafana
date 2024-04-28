@@ -11,7 +11,7 @@ _META_LABELS = {
 }
 
 _PER_LAP_LABELS = {
-    "Lap": "lap",
+    "Lap": ["lap", lambda v: v-1],
 }
 
 
@@ -55,6 +55,35 @@ class ExtractedLabels(Labels):
         return self._get_values(self.labels, ir)
 
 
+class ModifiedExtractedLabels(Labels):
+    def __init__(self, labels: dict):
+        super().__init__(labels)
+
+    def _get_keys(self, d):
+        ks = []
+        for key, value in d.items():
+            if type(value) is dict:
+                ks.extend(self._get_keys(value))
+            else:
+                ks.append(value[0])
+        return ks
+
+    def get_keys(self):
+        return self._get_keys(self.labels)
+
+    def _get_values(self, d, ir):
+        vs = []
+        for key, value in d.items():
+            if type(value) is dict:
+                vs.extend(self._get_values(value, ir[key]))
+            else:
+                vs.append(value[1](ir[key]))
+        return vs
+
+    def get_values(self, ir):
+        return self._get_values(self.labels, ir)
+
+
 META_LABELS = ExtractedLabels(_META_LABELS)
-PER_LAP_LABELS = ExtractedLabels(_PER_LAP_LABELS)
+PER_LAP_LABELS = ModifiedExtractedLabels(_PER_LAP_LABELS)
 STARTUP_LABELS = Labels({"client_startup_identifier": uuid.uuid4().hex})
