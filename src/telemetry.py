@@ -39,7 +39,7 @@ class Telemetry:
         time.sleep(self.tick_interval)
 
     def _tick_lap(self):
-        if self.config['dump_per_lap_metrics']:
+        if self.config['dump_per_lap_metrics'] == 'true':
             self.dump_per_lap_metrics()
         for m in self.registry.per_lap_metrics:
             m.set(self.ir)
