@@ -43,7 +43,7 @@ class Telemetry:
             self.dump_per_lap_metrics()
         for m in self.registry.per_lap_metrics:
             m.set(self.ir)
-        self._last_processed_lap = self.ir['Lap']
+        self._last_processed_lap = self.ir['Lap'] - 1
         print(f"Pushing metrics to {self.config['push_gw_url']} for lap {self._last_processed_lap}")
         push_to_gateway(self.config['push_gw_url'], job=self.config.job_name(),
                         registry=self.registry.registry)
