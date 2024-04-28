@@ -40,7 +40,7 @@ class Telemetry:
         time.sleep(self.tick_interval)
 
     def _tick_lap(self):
-        if self._last_lap_time == -1 or self._last_lap_time == self.ir['LapLastLapTime']:
+        if self._last_lap_time == self.ir['LapLastLapTime']:
             return
         else:
             self._last_lap_time = self.ir['LapLastLapTime']
