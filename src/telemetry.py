@@ -50,5 +50,5 @@ class Telemetry:
 
     def dump_per_lap_metrics(self):
         self.ir.parse_yaml_async = True
-        self.ir.parse_to(f'reports/{self._lap}_report.yaml')
+        self.ir.parse_to(f'reports//{self._lap}_report.yaml')
 
