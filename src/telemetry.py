@@ -39,9 +39,16 @@ class Telemetry:
         time.sleep(self.tick_interval)
 
     def _tick_lap(self):
+        if self.config['dump_per_lap_metrics']:
+            self.dump_per_lap_metrics()
         for m in self.registry.per_lap_metrics:
             m.set(self.ir)
         self._last_processed_lap = self.ir['Lap']
         print(f"Pushing metrics to {self.config['push_gw_url']} for lap {self._last_processed_lap}")
         push_to_gateway(self.config['push_gw_url'], job=self.config.job_name(),
                         registry=self.registry.registry)
+
+    def dump_per_lap_metrics(self):
+        self.ir.parse_yaml_async = True
+        self.ir.parse_to(f'reports/{self._lap}_report.yaml')
+
