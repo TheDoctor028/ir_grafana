@@ -12,6 +12,7 @@ class Telemetry:
         self.config = c
         self.registry = r
         self._current_lap = 0
+        self._last_lap_time = -1
         self._last_processed_lap = 0  # Lap 0 is not exists since when u left the pit it will be 1 instantly
         self.tick_interval = tick_interval
 
@@ -25,7 +26,7 @@ class Telemetry:
 
             self.ir.freeze_var_buffer_latest()
             self._tick()
-            self._current_lap = self.ir['Lap'] - 1
+            self._current_lap = self.ir['Lap']
             if self._current_lap > self._last_processed_lap:
                 self._tick_lap()
             self.ir.unfreeze_var_buffer_latest()
@@ -39,6 +40,11 @@ class Telemetry:
         time.sleep(self.tick_interval)
 
     def _tick_lap(self):
+        if self._last_lap_time == -1 or self._last_lap_time == self.ir['LapLastLapTime']:
+            return
+        else:
+            self._last_lap_time = self.ir['LapLastLapTime']
+
         if self.config['dump_per_lap_metrics'] == 'true':
             self.dump_per_lap_metrics()
         for m in self.registry.per_lap_metrics:
