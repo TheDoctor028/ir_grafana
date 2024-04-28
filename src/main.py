@@ -33,8 +33,11 @@ def main():
     fuel_lvl = Gauge('fuel_level', 'Fuel level in liters',
                      [STARTUP_LABELS, META_LABELS], 'FuelLevel')
 
+    fuel_lvl_pct = Gauge('fuel_level_pct', 'Fuel level in %',
+                     [STARTUP_LABELS, META_LABELS], 'FuelLevelPct')
+
     print("Initializing registry...")
-    r = Registry([fuel_lvl, current_laptime], [last_laptime, current_laptime_per_lap])
+    r = Registry([fuel_lvl, current_laptime, fuel_lvl_pct], [last_laptime, current_laptime_per_lap])
 
     print("Starting telemetry...")
     t = Telemetry(ir, c, r)
