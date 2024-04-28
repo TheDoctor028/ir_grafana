@@ -1,6 +1,6 @@
 test_file: "test_files/test_file.txt"
 push_gw_url: "http://localhost:9091"
 client_id: "username_or_id"
-dump_per_lap_yaml: false
+dump_per_lap_metrics: false
 telemetry:
   meta_labels: {}
