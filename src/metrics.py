@@ -34,7 +34,7 @@ incident_count = Gauge('team_incident_count', 'Number of incidents (of the team)
 dq_incident_count = Gauge('dq_incident_count',  # TODO add this to per init metrics
                           'Number of max incidents that you can do before being disqualified',
                           [STARTUP_LABELS, META_LABELS], 'WeekendInfo.WeekendOptions.IncidentLimit',
-                           lambda v: v if v != -1 else 0
+                          lambda v: -1 if v == 'unlimited' else v
                           )
 
 PER_TICK_METRICS = [fuel_lvl, current_laptime, fuel_lvl_pct,
