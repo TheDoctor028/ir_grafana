@@ -37,7 +37,7 @@ class Meter:
 
     def _get_value_from_ir(self, ir: IRSDK):
         keys = self.ir_key.split('.')
-        t_res = None
+        t_res = ir
         for key in keys:
             try:
                 t_res = t_res[key]
