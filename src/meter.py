@@ -33,6 +33,17 @@ class Meter:
     def set(self, ir: IRSDK):
         pass
 
+    def _get_value_from_ir(self, ir: IRSDK):
+        keys = self.ir_key.split('.')
+        t_res = None
+        for key in keys:
+            try:
+                t_res = ir[key]
+            except KeyError:
+                return None
+
+        return t_res
+
 
 class Gauge(Meter):
     gauge: prometheus_client.Gauge
@@ -46,7 +57,7 @@ class Gauge(Meter):
                                              self._get_merged_labels_keys(), registry=self.registry)
 
     def set(self, ir: IRSDK):
-        return self.gauge.labels(*self._get_merged_labels_values(ir)).set(ir[self.ir_key])
+        return self.gauge.labels(*self._get_merged_labels_values(ir)).set(self._get_value_from_ir(ir))
 
 
 class Counter(Meter):
@@ -61,4 +72,4 @@ class Counter(Meter):
                                                  self._get_merged_labels_keys(), registry=self.registry)
 
     def set(self, ir: IRSDK):
-        return self.counter.labels(*self._get_merged_labels_values(ir)).inc(ir[self.ir_key])
+        return self.counter.labels(*self._get_merged_labels_values(ir)).inc(self._get_value_from_ir(ir))
