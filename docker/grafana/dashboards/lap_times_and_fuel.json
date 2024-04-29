@@ -42,14 +42,325 @@
               }
             ]
           },
+          "unit": "time: mm:ss.SSS"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PAB0B46B3352ABC57"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "lap_time{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"} * 1000",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Last Lap Time",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Value": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "lap": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": false,
+                "field": "lap"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PAB0B46B3352ABC57"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "time: mm:ss.SSS"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PAB0B46B3352ABC57"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(lap_time{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"} * 1000 > 0) by (session_id, subsession_id)",
+          "format": "table",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Avg Lap Time",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PAB0B46B3352ABC57"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "time: mm:ss.SSS"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PAB0B46B3352ABC57"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "best_lap_time{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"} * 1000",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Best Lap Time",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PAB0B46B3352ABC57"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
           "unit": "dthms"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 7,
-        "x": 0,
+        "h": 3,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PAB0B46B3352ABC57"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "session_time{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Session Elapsed Time",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PAB0B46B3352ABC57"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dthms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 16,
         "y": 0
       },
       "id": 1,
@@ -77,8 +388,8 @@
             "uid": "PAB0B46B3352ABC57"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "session_time{session_id=\"$session_id\", $sub_session_id=\"$sub_session_id\"}",
+          "editorMode": "code",
+          "expr": "session_time_remain{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -88,7 +399,76 @@
           "useBackend": false
         }
       ],
-      "title": "Session Elapsed Time",
+      "title": "Session Time Remaining",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PAB0B46B3352ABC57"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "Laps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PAB0B46B3352ABC57"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "session_laps_remain{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Session Laps Remaining",
       "type": "stat"
     },
     {
@@ -167,7 +547,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 3
       },
       "id": 2,
       "options": {
@@ -199,9 +579,9 @@
             "uid": "PAB0B46B3352ABC57"
           },
           "disableTextWrap": false,
-          "editorMode": "code",
+          "editorMode": "builder",
           "exemplar": false,
-          "expr": "lap_time{session_id=\"$session_id\", subsession_id=\"$sub_session_id\"} * 1000",
+          "expr": "lap_time{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"} * 1000",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -321,7 +701,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 11
       },
       "id": 3,
       "options": {
@@ -344,7 +724,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "fuel_level{session_id=\"$session_id\", subsession_id=\"$sub_session_id\"}",
+          "expr": "fuel_level{session_id=\"$session_id\", subsession_id=\"$sub_session_id\", client_startup_identifier=\"$start_up_id\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -358,7 +738,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 39,
   "tags": [
     "ir",
@@ -456,10 +836,10 @@
         "current": {
           "selected": true,
           "text": [
-            "155975b91c2748b9a610e453c7a2b068"
+            "e17a291b045148fa8df2244a9d58e3db"
           ],
           "value": [
-            "155975b91c2748b9a610e453c7a2b068"
+            "e17a291b045148fa8df2244a9d58e3db"
           ]
         },
         "datasource": {
@@ -488,8 +868,8 @@
     ]
   },
   "time": {
-    "from": "2024-04-29T18:46:00.642Z",
-    "to": "2024-04-29T19:27:43.356Z"
+    "from": "now-1h",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -506,6 +886,6 @@
   "timezone": "browser",
   "title": "Lap Time & Fuel",
   "uid": "cdk80m6fpv1tsd",
-  "version": 7,
+  "version": 12,
   "weekStart": ""
 }
