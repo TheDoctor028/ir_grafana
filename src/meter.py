@@ -5,13 +5,15 @@ from labels import Labels
 
 class Meter:
 
-    def __init__(self, name: str, description: str, labels: list[Labels], ir_key: str):
+    def __init__(self, name: str, description: str, labels: list[Labels], ir_key: str,
+                 value_map: lambda v: v = lambda v: v):
         self.name = name
         self.description = description
         self.labels = labels
         self.ir_key = ir_key
         self.init = False
         self.registry = None
+        self.value_map = value_map
 
     def init_meter(self, registry):
         if not self.init:
@@ -40,16 +42,17 @@ class Meter:
             try:
                 t_res = ir[key]
             except KeyError:
-                return None
+                return -100
 
-        return t_res
+        return self.value_map(t_res)
 
 
 class Gauge(Meter):
     gauge: prometheus_client.Gauge
 
-    def __init__(self, name: str, description: str, labels: list[Labels], ir_key: str):
-        super().__init__(name, description, labels, ir_key)
+    def __init__(self, name: str, description: str, labels: list[Labels], ir_key: str,
+                 value_map: lambda v: v = lambda v: v):
+        super().__init__(name, description, labels, ir_key, value_map)
 
     def init_meter(self, registry):
         super().init_meter(registry)
@@ -63,8 +66,9 @@ class Gauge(Meter):
 class Counter(Meter):
     counter: prometheus_client.Counter
 
-    def __init__(self, name: str, description: str, labels: list[Labels], ir_key: str):
-        super().__init__(name, description, labels, ir_key)
+    def __init__(self, name: str, description: str, labels: list[Labels], ir_key: str,
+                 value_map: lambda v: v = lambda v: v):
+        super().__init__(name, description, labels, ir_key, value_map)
 
     def init_meter(self, registry):
         super().init_meter(registry)
