@@ -40,7 +40,7 @@ class Meter:
         t_res = None
         for key in keys:
             try:
-                t_res = ir[key]
+                t_res = t_res[key]
             except KeyError:
                 return -100
 
