@@ -86,4 +86,6 @@ class ModifiedExtractedLabels(Labels):
 
 META_LABELS = ExtractedLabels(_META_LABELS)
 PER_LAP_LABELS = ModifiedExtractedLabels(_PER_LAP_LABELS)
-STARTUP_LABELS = Labels({"client_startup_identifier": uuid.uuid4().hex})
+STARTUP_UUID = uuid.uuid4().hex
+print(f'Startup UUID: {STARTUP_UUID}')
+STARTUP_LABELS = Labels({"client_startup_identifier": STARTUP_UUID})
