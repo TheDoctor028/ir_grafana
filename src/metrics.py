@@ -37,6 +37,12 @@ dq_incident_count = Gauge('dq_incident_count',  # TODO add this to per init metr
                           lambda v: -1 if v == 'unlimited' else v
                           )
 
-PER_TICK_METRICS = [fuel_lvl, current_laptime, fuel_lvl_pct,
-                    session_time, session_time_remain, session_laps_remain, incident_count]
+track_wetness = Gauge('track_wetness', 'Track wetness', [STARTUP_LABELS, META_LABELS], 'TrackWetness')
+
+PER_TICK_METRICS = [
+                    fuel_lvl, current_laptime, fuel_lvl_pct,
+                    session_time, session_time_remain, session_laps_remain, incident_count,
+                    track_wetness
+                    ]
+
 PER_LAP_METRICS = [lap_time, current_laptime_per_lap, best_lap_time, dq_incident_count]
